@@ -1,0 +1,35 @@
+{
+  "generated_at": "2026-08-14T13:24:18.910115+00:00",
+  "dataset_version": "1.0.0",
+  "total_images": 0,
+  "images_by_split": {
+    "train": 0,
+    "val": 0,
+    "test": 0
+  },
+  "total_objects": 0,
+  "objects_by_split": {
+    "train": 0,
+    "val": 0,
+    "test": 0
+  },
+  "objects_by_class": {},
+  "invalid_images": 0,
+  "invalid_labels": 0,
+  "duplicates_removed": 0,
+  "quarantined": 0,
+  "leakage_status": "PENDING",
+  "data_yaml_present": true,
+  "class_ids_valid": true,
+  "ready_for_task5": false,
+  "stage_reports_used": {
+    "validate_images": "datasets/processed/validate_images_report.json",
+    "validate_labels": "datasets/processed/validate_labels_report.json",
+    "pairing": "datasets/processed/pairing_report.json",
+    "duplicates": "datasets/processed/duplicates_report.json",
+    "quality": "datasets/processed/image_quality_report.json",
+    "groups": "datasets/processed/group_assignments.json",
+    "split": "datasets/processed/split_assignments.json",
+    "build": "datasets/processed/build_yolo_dataset_report.json"
+  }
+}

@@ -1,0 +1,25 @@
+# AI-CCTV Sentinel — Video Ingestion & Frame Processing Configuration
+#
+# Controls Layer 2 (Video Ingestion) and Layer 3 (Frame Processing).
+# These are engineering starting points, not tuned values — they will
+# be adjusted once real CCTV streams and hardware are measured.
+
+ingestion:
+  reconnect:
+    enabled: true
+    initial_delay_seconds: 2
+    max_delay_seconds: 30
+    backoff_multiplier: 2.0
+  heartbeat_interval_seconds: 5
+  read_timeout_seconds: 10
+
+frame_processing:
+  processing_fps: 5 # frames per second actually sent to inference
+  image_size: 640 # short side / model input size, matches YOLO26n default
+  resize_interpolation: area
+  motion_gate:
+    enabled: false # optional pre-filter to skip static frames; off by default
+    min_pixel_diff_percent: 1.0
+  queue:
+    max_size: 64 # bounded queue to avoid unbounded memory growth on stalls
+    drop_policy: drop_oldest

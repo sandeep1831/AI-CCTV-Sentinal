@@ -1,0 +1,70 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Machine learning outputs
+runs/
+wandb/
+mlruns/
+
+# Model weights
+*.pt
+*.onnx
+*.engine
+*.tflite
+
+# Large datasets — ignore actual media, keep directory structure + .gitkeep
+datasets/raw/**
+datasets/processed/**
+datasets/quarantine/**
+!datasets/raw/**/
+!datasets/processed/**/
+!datasets/quarantine/**/
+!datasets/**/.gitkeep
+!datasets/raw/**/*.json
+# (per-sample/source metadata JSON under datasets/raw/, if any, stays tracked;
+#  actual images/videos under datasets/raw/ and datasets/processed/ do not.)
+
+# YOLO-built dataset (Task 4) — ignore actual images/labels, keep the
+# generated metadata (data.yaml, dataset_manifest.json,
+# dataset_statistics.json) which are small and describe the dataset.
+datasets/yolo/*/images/*/*
+datasets/yolo/*/labels/*/*
+!datasets/yolo/*/images/*/.gitkeep
+!datasets/yolo/*/labels/*/.gitkeep
+
+# Logs
+*.log
+
+# Temporary files
+temp/
+tmp/
+
+# Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Build
+build/
+dist/
+*.egg-info/

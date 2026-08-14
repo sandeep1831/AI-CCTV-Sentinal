@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "created_at": "2026-08-12",
+  "description": "Task 4 scaffold: full YOLO dataset structure, class config, and 12-step annotation/preprocessing/splitting pipeline built and verified against synthetic test data. No real annotated samples included.",
+  "source_additions": [],
+  "removed_samples": [],
+  "class_changes": "Authoritative class mapping formalized in configs/classes.yaml: 0=snake, 1=monkey, 2=dog, 3=person.",
+  "metadata_changes": "Added annotation/quality/grouping/split schemas (scripts/dataset/annotation_schemas.py).",
+  "quality_filtering": "Pipeline built and verified (validate_images.py, calculate_image_quality.py); not yet run against real data.",
+  "duplicate_filtering": "Pipeline built and verified (detect_duplicates.py, dry-run by default); not yet run against real data.",
+  "leakage_prevention": "Pipeline built and verified against synthetic two-sequence test data; both sequences stayed within a single split.",
+  "sample_count_by_class": {"snake": 0, "monkey": 0, "dog": 0, "person": 0},
+  "total_samples": 0,
+  "split_actual": {"train": 0, "val": 0, "test": 0},
+  "status": "PENDING — pipeline ready, awaiting real annotated data from Task 3 sources"
+}

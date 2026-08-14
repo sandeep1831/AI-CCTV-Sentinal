@@ -1,0 +1,25 @@
+{
+  "project": "AI-CCTV Sentinel",
+  "dataset_version": "0.1.0",
+  "generated_at": "2026-08-14",
+  "primary_classes": [
+    "snake",
+    "monkey",
+    "dog",
+    "person"
+  ],
+  "optional_extension_classes": [
+    "cattle",
+    "wild_boar",
+    "other_large_animal"
+  ],
+  "snake_hierarchy": {
+    "snake": [
+      "likely_venomous",
+      "likely_non_venomous",
+      "unknown"
+    ]
+  },
+  "source_count": 0,
+  "sources": []
+}

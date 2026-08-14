@@ -1,0 +1,30 @@
+{
+  "_comment": "Copy this file, rename it to <sample_id>.json, and fill in every field for each collected image/video. dataset_report.py aggregates every *.json file in this directory (except this template). See scripts/dataset/schemas.py:SampleMetadata for the authoritative field list/types. Do not fabricate values you don't actually know — use 'unknown' / null where genuinely unknown.",
+
+  "sample_id": "SNAKE-000001",
+  "dataset_id": "DS-PUBLIC-001",
+  "source_id": null,
+  "original_filename": "example.jpg",
+  "media_type": "image",
+  "animal_class": "snake",
+  "snake_category": "unknown",
+  "region": "Unknown",
+  "camera_type": "unknown",
+  "resolution": "unknown",
+  "lighting": "unknown",
+  "weather": "unknown",
+  "time_of_day": "unknown",
+  "viewpoint": null,
+  "occlusion_level": "none",
+  "quality": "acceptable",
+  "license": "e.g. CC-BY-4.0",
+  "sha256": null,
+  "phash": null,
+  "collected_at": null,
+
+  "uncertainty_score": null,
+  "selection_reason": null,
+  "human_review_status": "not_applicable",
+  "feedback_label": null,
+  "model_version": null
+}

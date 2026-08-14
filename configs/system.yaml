@@ -1,0 +1,48 @@
+# AI-CCTV Sentinel — System-Wide Configuration
+#
+# Cross-cutting settings that don't belong to a single layer.
+
+app:
+  name: "AI-CCTV Sentinel"
+  environment: development # development | staging | production
+
+api:
+  host: 127.0.0.1
+  port: 8000
+  # Real deployments must sit behind HTTPS (e.g. a reverse proxy) —
+  # see docs/architecture/security-architecture.md.
+  require_https_in_production: true
+
+logging:
+  level: INFO
+  destination: logs/
+
+deployment_profile: development # development | pilot
+# development: developer PC + recorded/local video + FastAPI
+# pilot:       existing CCTV/NVR + LAN + edge server + DB + dashboard/mobile + IoT
+
+offline_mode:
+  enabled: true
+  local_event_queue_path: temp/event_queue/
+  sync_on_reconnect: true
+
+observability:
+  metrics_enabled: true
+  tracked_metrics:
+    - camera_uptime
+    - fps
+    - inference_latency
+    - queue_length
+    - gpu_usage
+    - cpu_usage
+    - memory_usage
+    - detections_per_hour
+    - alerts_per_hour
+    - false_positive_rate
+    - model_version
+  health_checks:
+    - ai_status
+    - camera_status
+    - database_status
+    - notification_status
+    - iot_status

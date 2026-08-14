@@ -1,0 +1,12 @@
+%% Diagram 2 — AI Inference Pipeline
+flowchart LR
+    A["Frame<br/>(camera_id, frame_id, image, timestamp)"] --> B["Resize / image_size<br/>(configs/video.yaml)"]
+    B --> C["YOLO26n Detector.predict()<br/>confidence_threshold, device"]
+    C --> D["Detection[]<br/>bbox, class, confidence"]
+    D --> E["Tracker.update()<br/>botsort / bytetrack"]
+    E --> F["Track[]<br/>track_id, duration, history"]
+    F --> G["TemporalValidator.evaluate()<br/>minimum_frames, minimum_duration_seconds"]
+    G -->|confirmed=false| H["Discard / keep observing"]
+    G -->|confirmed=true| I["Classifier.classify()<br/>Mode A/B/C (configs/model.yaml)"]
+    I --> J["RiskEngine.assess()<br/>zone-aware scoring"]
+    J --> K["RiskAssessment<br/>risk_score, risk_level, reason[]"]

@@ -1,0 +1,12 @@
+%% Diagram 4 — Human Feedback Pipeline
+flowchart TD
+    EVT["Event presented to<br/>authorized user (dashboard/mobile)"] --> DECIDE{"Human reviews event"}
+    DECIDE -->|CONFIRM| CONF["FeedbackManager.submit_feedback(CONFIRM)"]
+    DECIDE -->|DISMISS| DISM["FeedbackManager.submit_feedback(DISMISS, reason)"]
+    DECIDE -->|UNCERTAIN| UNC["FeedbackManager.submit_feedback(UNCERTAIN)"]
+
+    CONF --> FB["Feedback record<br/>(backend.schemas.feedback.Feedback)"]
+    DISM --> FB
+    UNC --> FB
+
+    FB --> NOTE["FUTURE: routed to Sample Selection Engine<br/>as verified training metadata<br/>(dismissed events -> hard negatives)"]

@@ -1,0 +1,25 @@
+{
+  "dataset_name": "AI-CCTV Sentinel",
+  "version": "1.0.0",
+  "task": "object_detection",
+  "annotation_format": "Ultralytics YOLO",
+  "annotation_tool": "CVAT",
+  "classes": {
+    "0": "snake",
+    "1": "monkey",
+    "2": "dog",
+    "3": "person"
+  },
+  "creation_date": "2026-08-14",
+  "split_strategy": "group-aware (source/sequence), target 70/15/15, actual ratios in dataset_statistics.json",
+  "quality_filtering": "blur/brightness/contrast recorded; no universal reject threshold applied without validation",
+  "duplicate_policy": "exact duplicates (SHA-256) quarantined; near-duplicates (perceptual hash) flagged for review only",
+  "leakage_policy": "whole source-video/sequence/source-dataset groups assigned to a single split; no frame-level random splitting",
+  "sample_counts": {
+    "train": 0,
+    "val": 0,
+    "test": 0
+  },
+  "object_counts": {},
+  "status": "PENDING"
+}

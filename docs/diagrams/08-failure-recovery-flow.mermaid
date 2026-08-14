@@ -1,0 +1,33 @@
+%% Diagram 8 — Failure / Recovery Flow
+flowchart TD
+    subgraph CAM["Camera Failure Handling"]
+        C1["Stream heartbeat"] --> C2{"Healthy?"}
+        C2 -->|Yes| C3["ONLINE — process frames"]
+        C2 -->|No| C4["RECONNECTING<br/>backoff per configs/video.yaml"]
+        C4 -->|retries exhausted| C5["OFFLINE — alert admin"]
+        C4 -->|reconnected| C3
+    end
+
+    subgraph AI["AI Failure Handling"]
+        A1["Inference call"] --> A2{"Error?"}
+        A2 -->|No| A3["Continue pipeline"]
+        A2 -->|Yes| A4["Log error"] --> A5["Retry"] --> A6["Continue stream<br/>(never crash backend)"]
+    end
+
+    subgraph ISO["Failure Isolation"]
+        I1["Camera failure"]
+        I2["AI failure"]
+        I3["Database failure"]
+        I4["Notification failure"]
+        I5["IoT failure"]
+        I1 -.->|does not affect| I2
+        I2 -.->|does not affect| I3
+        I3 -.->|does not affect| I4
+        I4 -.->|does not affect| I5
+    end
+
+    subgraph OFF["Offline / Fallback Mode"]
+        O1["Internet unavailable"] --> O2["Edge AI continues locally"]
+        O2 --> O3["Local alarm + local event queue"]
+        O3 -->|connectivity returns| O4["Backend synchronization"]
+    end

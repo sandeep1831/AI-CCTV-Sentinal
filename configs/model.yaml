@@ -1,0 +1,53 @@
+# AI-CCTV Sentinel — Model, Detection & Tracking Configuration
+#
+# This is the single source of truth for which detector/tracker is
+# active and how confident it must be. Application code must read
+# these values rather than hard-coding thresholds or model names.
+
+detector:
+  name: yolo26n
+  weights: yolo26n.pt
+  confidence_threshold: 0.50
+  iou_threshold: 0.45
+  device: auto # auto | cpu | cuda:0 | ...
+  # Classes are intentionally NOT finalized in Task 2. The detector
+  # class list will be defined once dataset/annotation work begins.
+  class_list: []
+
+tracking:
+  enabled: true
+  # BoT-SORT and ByteTrack are both supported by the current
+  # Ultralytics stack. Neither is selected as final in Task 2 — the
+  # interface must support swapping between them for later experiments.
+  tracker: botsort # botsort | bytetrack
+  persist: true
+
+classification:
+  # Mode A: detector only
+  # Mode B: detector + general classifier
+  # Mode C: detector + classifier + specialist snake classifier
+  mode: A
+  general_classifier:
+    enabled: false
+    weights: null
+  snake_specialist_classifier:
+    enabled: false
+    weights: null
+    categories:
+      - likely_venomous
+      - likely_non_venomous
+      - unknown
+
+model_registry:
+  # Logical states a model version can occupy. See
+  # docs/architecture/self-learning-architecture.md for the full
+  # lifecycle definition.
+  states:
+    - TRAINING
+    - VALIDATING
+    - CANDIDATE
+    - STAGED
+    - PRODUCTION
+    - REJECTED
+    - ARCHIVED
+  current_production_version: null # set once a real model is deployed

@@ -1,0 +1,23 @@
+# AI-CCTV Sentinel — Authoritative Class Definitions (Task 4 §5)
+#
+# Single source of truth for class IDs. IDs start at 0, are
+# consecutive, and must not change between dataset versions without a
+# documented migration recorded in datasets/yolo/*/dataset_manifest.json
+# and docs/research/dataset-v1-report.md.
+#
+# These four classes match Task 3's primary class scope. No additional
+# classes have been approved in the dataset manifest as of dataset
+# v1.0.0, so none are added here.
+
+classes:
+  0: snake
+  1: monkey
+  2: dog
+  3: person
+
+# Secondary snake metadata (NOT separate detection classes — Task 4 §13).
+# Stored per-sample in metadata only, never as a class ID.
+snake_category:
+  - likely_venomous
+  - likely_non_venomous
+  - unknown

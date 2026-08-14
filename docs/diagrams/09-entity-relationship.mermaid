@@ -1,0 +1,81 @@
+%% Diagram 9 — Entity Relationship Design (FUTURE — PostgreSQL not implemented in Task 2)
+erDiagram
+    CAMERA ||--o{ ZONE : "contains"
+    CAMERA ||--o{ DETECTION : "produces"
+    DETECTION }o--|| TRACK : "belongs to"
+    TRACK ||--o| EVENT : "confirms into"
+    EVENT ||--o{ ALERT : "generates"
+    EVENT ||--o| FEEDBACK : "receives"
+    MODEL ||--o{ TRAINING_RUN : "produced by"
+    MODEL ||--o{ DEPLOYMENT : "has"
+    DATASET ||--o{ SAMPLE : "contains"
+    DATASET ||--o{ TRAINING_RUN : "used by"
+    FEEDBACK }o--o{ SAMPLE : "may become"
+
+    CAMERA {
+        string camera_id PK
+        string name
+        string location
+        string stream_type
+        bool enabled
+    }
+    ZONE {
+        string zone_id PK
+        string camera_id FK
+        string kind
+        bool restricted
+    }
+    DETECTION {
+        string detection_id PK
+        string camera_id FK
+        int frame_id
+        string animal_class
+        float confidence
+    }
+    TRACK {
+        int track_id PK
+        string camera_id FK
+        float duration_seconds
+    }
+    EVENT {
+        string event_id PK
+        int track_id FK
+        string zone_id FK
+        int risk_score
+        string risk_level
+        string model_version
+    }
+    ALERT {
+        string alert_id PK
+        string event_id FK
+        string channel
+        string status
+    }
+    FEEDBACK {
+        string feedback_id PK
+        string event_id FK
+        string outcome
+        string reviewed_by
+    }
+    MODEL {
+        string version PK
+        string state
+    }
+    TRAINING_RUN {
+        string training_run_id PK
+        string dataset_version FK
+        string base_model_version FK
+    }
+    DEPLOYMENT {
+        string deployment_id PK
+        string version FK
+        string state
+    }
+    DATASET {
+        string dataset_version PK
+    }
+    SAMPLE {
+        string sample_id PK
+        string dataset_version FK
+        string source_event_id FK
+    }

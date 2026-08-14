@@ -1,0 +1,40 @@
+# AI-CCTV Sentinel — Alert Policy Configuration
+#
+# Maps risk level -> which alert channels fire. This policy is
+# intentionally configurable rather than hard-coded, per the
+# Alert Manager architecture (Layer 10).
+
+channels:
+  log:
+    enabled: true
+  dashboard:
+    enabled: true
+  mobile_push:
+    enabled: false # future task — requires mobile app integration
+  iot_alarm:
+    enabled: false # future task — requires IoT hardware integration
+
+policy:
+  LOW:
+    - log
+  MEDIUM:
+    - log
+    - dashboard
+  HIGH:
+    - log
+    - dashboard
+    - mobile_push
+  CRITICAL:
+    - log
+    - dashboard
+    - mobile_push
+    - iot_alarm
+
+human_confirmation:
+  required_for_levels:
+    - HIGH
+    - CRITICAL
+  outcomes:
+    - CONFIRM
+    - DISMISS
+    - UNCERTAIN

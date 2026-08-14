@@ -1,0 +1,16 @@
+%% Diagram 5 — Self-Learning Lifecycle (FUTURE — interfaces defined, not implemented)
+flowchart TD
+    D["Detection"] --> HF["Human Feedback"]
+    HF --> VS["Verified Sample"]
+    VS --> SS["SampleSelectionEngine.select_candidates()<br/>low confidence, uncertainty, false positive,<br/>new camera/environment, underrepresented class"]
+    SS --> DV["Dataset Version"]
+    DV --> TR["TrainingManager.start_training_run()"]
+    TR --> CM["Candidate Model<br/>(ModelState.CANDIDATE)"]
+    CM --> EVAL["Evaluation<br/>ModelRegistry.update_metrics()"]
+    EVAL -->|better than production| DEPLOY["ModelRegistry.promote()"]
+    EVAL -->|worse than production| REJECT["ModelRegistry.reject()"]
+    DEPLOY --> PROD["PRODUCTION model updated"]
+    REJECT --> KEEP["Existing PRODUCTION model unchanged"]
+
+    classDef future fill:#7a5b1e,stroke:#5c4416,color:#fff;
+    class D,HF,VS,SS,DV,TR,CM,EVAL,DEPLOY,REJECT,PROD,KEEP future;

@@ -1,0 +1,24 @@
+{
+  "_comment": "Copy this file, rename it to <dataset_id>.json, and fill in every field before adding real data under datasets/raw/<category>/. build_manifest.py aggregates every *.json file in this directory (except this template) into datasets/metadata/dataset_manifest.json. See scripts/dataset/schemas.py:DatasetSource for the authoritative field list/types.",
+
+  "dataset_id": "DS-PUBLIC-001",
+  "name": "Example Public Dataset",
+  "source_url": "https://example.org/dataset",
+  "publisher": "Publisher or institution name",
+  "license": "e.g. CC-BY-4.0 — copy the exact license name from the source",
+  "commercial_use": false,
+  "redistribution_allowed": false,
+  "research_use": true,
+  "attribution_required": true,
+  "category": "public",
+  "task": "detection",
+  "classes": ["snake"],
+  "image_count": 0,
+  "video_count": 0,
+  "resolution": "unknown",
+  "region": "Unknown",
+  "collection_conditions": "Describe known conditions (e.g. camera-trap, citizen-science submissions), or 'unknown'",
+  "collection_method": "How the source collected this data originally",
+  "download_date": "YYYY-MM-DD",
+  "usage_restrictions": "Any restriction beyond the license itself, e.g. 'non-commercial only', or null"
+}
