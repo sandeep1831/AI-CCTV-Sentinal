@@ -1,0 +1,52 @@
+# AI-CCTV Sentinel — Experiment Matrix Configuration (Task 5)
+#
+# Defines the PLANNED controlled experiments beyond the baseline
+# (EXP-001). Each changes only one major factor relative to the
+# baseline, per Task 5 §56 ("controlled experiments"). Experiments are
+# only actually run if the underlying data/hardware genuinely
+# supports them — this file documents intent, it does not claim any
+# of these have been executed. See runs/experiments/ for what has
+# actually run, and reports/experiments/EXP-*.md for real results.
+
+experiments:
+  - id: EXP-001
+    model: yolo26n.pt
+    dataset: datasets/yolo/sentinel_v1/data.yaml
+    purpose: "Baseline — pretrained YOLO26n fine-tuned on sentinel_v1 with standard config."
+    status: NOT_RUN # dataset has 0 samples as of this file's creation — see preflight_check.py
+
+  - id: EXP-002
+    model: yolo26s.pt
+    dataset: datasets/yolo/sentinel_v1/data.yaml
+    purpose: "Model-size comparison — is YOLO26s worth the extra latency/memory over YOLO26n?"
+    status: NOT_RUN
+    depends_on: EXP-001 # only run once baseline exists, same dataset/split/protocol
+
+  - id: EXP-003
+    model: yolo26n.pt
+    dataset: datasets/yolo/sentinel_v1/data.yaml
+    purpose: "Training-configuration study (e.g. larger image size for small/distant snakes)."
+    status: NOT_RUN
+    depends_on: EXP-001
+
+  - id: EXP-004
+    model: yolo26n.pt
+    dataset: datasets/yolo/sentinel_v1/data.yaml # + hard-negative-enhanced variant, once one exists
+    purpose: "Hard-negative enhanced dataset — does it reduce false positives without hurting recall?"
+    status: NOT_RUN
+    depends_on: EXP-001
+    requires: "Sufficient hard-negative samples in datasets/raw/hard_negatives/ (currently 0 — Task 3 gap)."
+
+  - id: EXP-005
+    model: SELECTED # whichever candidate wins model selection (reports/model_selection.md)
+    dataset: datasets/yolo/sentinel_v1_domain_shift/
+    purpose: "Robustness — evaluate the selected model on domain-shift conditions."
+    status: NOT_RUN
+    depends_on: EXP-001
+    requires: "Populated sentinel_v1_domain_shift subset (currently empty — Task 4 gap)."
+
+fair_comparison_rule: >
+  When comparing experiments, keep dataset, split, evaluation set, image size,
+  evaluation protocol, and class mapping constant unless that is the variable
+  under test — and if something does change, record it explicitly in that
+  experiment's reports/experiments/EXP-XXX.md (Task 5 §90).

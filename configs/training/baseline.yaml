@@ -1,0 +1,39 @@
+# AI-CCTV Sentinel — Baseline Training Configuration (Task 5, EXP-001)
+#
+# This defines the FIRST, non-optimized baseline experiment. Do not
+# tune this aggressively — its purpose is to establish a reproducible
+# reference point, not to chase the best possible number (Task 5 §16,
+# §55).
+
+experiment:
+  id: EXP-001
+  name: YOLO26n-baseline
+  purpose: "Establish the first measurable baseline on the Task 4 sentinel_v1 dataset."
+
+model:
+  weights: yolo26n.pt
+  family: YOLO26
+
+dataset:
+  path: datasets/yolo/sentinel_v1/data.yaml
+  version: "1.0.0"
+
+training:
+  epochs: 100 # practical starting budget; patience/early-stopping governs actual length
+  image_size: 640
+  batch: -1 # -1 = Ultralytics "auto" batch sizing based on available GPU memory
+  device: auto # auto | cpu | cuda:0 | ...
+  patience: 20 # epochs without val improvement before early stopping
+  workers: 8
+  seed: 42 # fixed for reproducibility (Task 5 §14)
+  project: runs/detect
+  name: sentinel_yolo26n_baseline
+
+evaluation:
+  confidence_threshold: 0.50 # default only — real operating threshold is chosen
+  # later via scripts/training/threshold_analysis.py, not assumed (Task 5 §32-33).
+  iou_threshold: 0.45
+
+notes: >
+  This file is read by scripts/training/train_baseline.py. Do not hard-code these
+  values directly in code — change them here and re-run instead.

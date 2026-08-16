@@ -1,0 +1,62 @@
+# AI-CCTV Sentinel — Dataset Build Configuration (Task 4 §71)
+#
+# Configurable parameters for the annotation -> preprocessing ->
+# split -> YOLO-build pipeline (scripts/dataset/*.py). These are
+# targets/policy, not guaranteed final percentages — see Task 4 §33
+# and docs/research/dataset-splitting-policy.md.
+
+dataset:
+  name: sentinel
+  version: "1.0.0"
+  output_dir: datasets/yolo/sentinel_v1
+
+split:
+  train: 0.70
+  val: 0.15
+  test: 0.15
+  # If group-aware splitting makes these exact percentages impractical
+  # for the actual data, create_dataset_split.py reports the ACTUAL
+  # achieved split rather than forcing these targets at the expense of
+  # leakage prevention.
+
+quality:
+  enable_blur_check: true
+  enable_brightness_check: true
+  enable_contrast_check: true
+  # No universal hard-coded reject threshold is applied — scores are
+  # recorded and flagged (good/review/reject) per Task 4 §26-29;
+  # thresholds are only set once real data lets them be validated.
+  blur_review_below: null
+  brightness_low_below: null
+  brightness_high_above: null
+
+duplicates:
+  enable_sha256: true
+  enable_phash: true
+  exact_duplicate_action: remove # Task 4 §30
+  near_duplicate_action: review
+
+leakage:
+  group_by_source: true
+  group_by_sequence: true
+  # A "group" = one source_video_id/camera_session_id/sequence_id.
+  # All frames sharing a group_id must land in the same split
+  # (Task 4 §31-32).
+
+object_scale_bands:
+  # Bounding-box area / image area, expressed as fractions.
+  # Configurable, not a universally hard-coded pixel threshold
+  # (Task 4 §9, §37).
+  tiny: [0.0, 0.02]
+  small: [0.02, 0.08]
+  medium: [0.08, 0.25]
+  large: [0.25, 1.0]
+
+annotation:
+  tool: CVAT
+  format: ultralytics_yolo
+  empty_label_policy: omit_file
+  # Chosen convention (Task 4 §17): a genuine negative/hard-negative
+  # image has NO corresponding .txt file, rather than an empty one.
+  # This matches the Ultralytics YOLO dataset convention referenced
+  # in Task 4 §11.

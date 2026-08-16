@@ -1,0 +1,13 @@
+path: datasets/yolo/sentinel_v1
+
+train: images/train
+val: images/val
+test: images/test
+
+nc: 4
+
+names:
+  0: snake
+  1: monkey
+  2: dog
+  3: person

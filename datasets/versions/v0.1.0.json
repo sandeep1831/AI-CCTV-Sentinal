@@ -1,0 +1,14 @@
+{
+  "version": "0.1.0",
+  "created_at": "2026-08-11",
+  "description": "Initial dataset registry and directory scaffold (Task 3). No samples collected yet.",
+  "source_additions": [],
+  "removed_samples": [],
+  "class_changes": "Initial class definitions established: snake, monkey, dog, person (primary); cattle, wild_boar, other_large_animal (optional extension).",
+  "metadata_changes": "Initial provenance/sample/source schemas established.",
+  "quality_filtering": "Not yet applicable — no samples collected.",
+  "duplicate_filtering": "Not yet applicable — no samples collected.",
+  "sample_count_by_class": {},
+  "total_samples": 0,
+  "status": "PENDING — awaiting real data source onboarding"
+}

@@ -1,0 +1,20 @@
+%% Diagram 7 — Deployment Architecture
+flowchart TB
+    subgraph DEV["Development Profile (CURRENT — Task 1 verified)"]
+        direction TB
+        D1["Recorded video / local webcam"] --> D2["Developer PC"]
+        D2 --> D3["YOLO26n (CPU or local GPU)"]
+        D3 --> D4["FastAPI (localhost)"]
+    end
+
+    subgraph PILOT["Pilot Profile (FUTURE)"]
+        direction TB
+        P1["Existing CCTV / NVR"] --> P2["Private LAN"]
+        P2 --> P3["Edge GPU / Server"]
+        P3 --> P4["FastAPI"]
+        P4 --> P5[("PostgreSQL")]
+        P4 --> P6["Dashboard / Mobile"]
+        P4 --> P7["IoT Alarm"]
+    end
+
+    DEV -.->|"promotes to"| PILOT

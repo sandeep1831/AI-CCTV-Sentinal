@@ -1,0 +1,17 @@
+%% Diagram 3 — Event / Alert Pipeline
+flowchart TD
+    RA["RiskAssessment"] --> EM["EventManager.create_event()"]
+    EM --> EV["Event<br/>event_id, camera_id, zone_id, track_id,<br/>animal_class, confidence, risk, model_version"]
+    EV --> AM["AlertManager.dispatch()<br/>configs/alerts.yaml policy lookup"]
+
+    AM -->|LOW| LOG["Log channel only"]
+    AM -->|MEDIUM| DB2["Dashboard + Log"]
+    AM -->|HIGH| MP["Mobile Push + Dashboard + Log<br/>(FUTURE: mobile app)"]
+    AM -->|CRITICAL| ALARM["IoT Alarm + Mobile Push +<br/>Dashboard + Log (FUTURE: IoT hardware)"]
+
+    LOG --> STORE["Alert records stored<br/>(FUTURE: PostgreSQL)"]
+    DB2 --> STORE
+    MP --> STORE
+    ALARM --> STORE
+
+    STORE --> ACK["AlertManager.acknowledge()<br/>human acknowledgement"]

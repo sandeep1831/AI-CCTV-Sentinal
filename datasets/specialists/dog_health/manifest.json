@@ -1,0 +1,18 @@
+{
+  "dataset_name": "dog-health-v1.0.0",
+  "generated_at": "2026-08-15T03:48:11.864602+00:00",
+  "source": "licensed/authorized staged images only (Task 6 \u00a726)",
+  "annotation_method": "human/veterinary-sourced category label per sample, staged via _incoming/",
+  "class_mapping": {
+    "0": "normal_visible_appearance",
+    "1": "possible_wound",
+    "2": "possible_skin_abnormality",
+    "3": "possible_injury",
+    "4": "unable_to_assess"
+  },
+  "visibility_policy": "insufficient_visibility forces category=unable_to_assess (Task 6 \u00a731)",
+  "counts": {},
+  "rejected": 0,
+  "license": "per-sample; recorded in each staged sample's JSON, never invented",
+  "status": "PENDING \u2014 no staged data"
+}

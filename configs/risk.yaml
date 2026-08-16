@@ -1,0 +1,48 @@
+# AI-CCTV Sentinel — Temporal Consistency & Risk Engine Configuration
+#
+# All values here are initial engineering defaults for the
+# architecture, NOT experimentally validated scientific results.
+# They must be tuned once real detection data is available.
+
+temporal:
+  minimum_frames: 3
+  minimum_duration_seconds: 1.0
+  # A track must satisfy minimum_frames AND minimum_duration_seconds
+  # before it is promoted from "candidate" to "confirmed event".
+
+risk:
+  enabled: true
+
+  # Component weights. The final score is a normalized combination of
+  # these factors — see docs/architecture/system-architecture.md
+  # ("Risk Assessment Engine") for the conceptual formula.
+  weights:
+    animal_risk: 0.40
+    confidence_factor: 0.15
+    location_factor: 0.20
+    persistence_factor: 0.10
+    restricted_zone_factor: 0.15
+
+  # Per-class base risk (0-100). "unknown" defaults conservatively.
+  animal_base_risk:
+    snake: 90
+    monkey: 55
+    dog: 35
+    person: 0
+    other: 20
+    unknown: 50
+
+  # Score-to-level thresholds (initial defaults, see Task 2 spec §14).
+  levels:
+    - name: LOW
+      min: 0
+      max: 24
+    - name: MEDIUM
+      min: 25
+      max: 49
+    - name: HIGH
+      min: 50
+      max: 74
+    - name: CRITICAL
+      min: 75
+      max: 100

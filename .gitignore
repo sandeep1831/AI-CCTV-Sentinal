@@ -1,0 +1,93 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Machine learning outputs — ignore actual training run artifacts
+# (weights, images, large logs under runs/detect/ etc.) but keep the
+# small experiment reproducibility metadata under runs/experiments/.
+runs/*
+!runs/experiments/
+runs/experiments/**
+!runs/experiments/**/
+!runs/experiments/**/*.json
+!runs/**/.gitkeep
+wandb/
+mlruns/
+
+# Model weights
+*.pt
+*.onnx
+*.engine
+*.tflite
+
+# Large datasets — ignore actual media, keep directory structure + .gitkeep
+datasets/raw/**
+datasets/processed/**
+datasets/quarantine/**
+!datasets/raw/**/
+!datasets/processed/**/
+!datasets/quarantine/**/
+!datasets/**/.gitkeep
+!datasets/raw/**/*.json
+# (per-sample/source metadata JSON under datasets/raw/, if any, stays tracked;
+#  actual images/videos under datasets/raw/ and datasets/processed/ do not.)
+
+# YOLO-built dataset (Task 4) — ignore actual images/labels, keep the
+# generated metadata (data.yaml, dataset_manifest.json,
+# dataset_statistics.json) which are small and describe the dataset.
+datasets/yolo/*/images/*/*
+datasets/yolo/*/labels/*/*
+!datasets/yolo/*/images/*/.gitkeep
+!datasets/yolo/*/labels/*/.gitkeep
+
+# Specialist classification datasets (Task 6) — ignore actual crop/
+# staged images, keep directory structure and manifest.json. The
+# _incoming/ staging area (dog health) is entirely ignored since it
+# holds licensed source images awaiting organization, never committed.
+datasets/specialists/*/train/*/*
+datasets/specialists/*/val/*/*
+datasets/specialists/*/test/*/*
+!datasets/specialists/*/train/*/.gitkeep
+!datasets/specialists/*/val/*/.gitkeep
+!datasets/specialists/*/test/*/.gitkeep
+datasets/specialists/dog_health/_incoming/
+
+# Specialist model weights (metadata JSON stays tracked via the
+# general *.pt ignore rule + explicit json allow below)
+models/specialists/*/*.pt
+
+# Logs
+*.log
+
+# Temporary files
+temp/
+tmp/
+
+# Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Build
+build/
+dist/
+*.egg-info/

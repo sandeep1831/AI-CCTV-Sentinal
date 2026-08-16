@@ -1,0 +1,47 @@
+# AI-CCTV Sentinel — Snake Specialist Classifier Configuration (Task 6)
+
+model:
+  weights: yolo26n-cls.pt
+  family: YOLO26n-cls
+
+classes:
+  0: likely_venomous
+  1: likely_non_venomous
+  2: unknown
+# 'unknown' is mandatory — never force an uncertain snake into
+# venomous/non-venomous (Task 6 §7, §83). Species-level classes
+# (Indian cobra, common krait, Russell's viper, saw-scaled viper) are
+# an OPTIONAL future research extension (Task 6 §8), not enabled here.
+
+dataset:
+  path: datasets/specialists/snake
+  version: "1.0.0"
+  manifest: datasets/specialists/snake/manifest.json
+  crop_source: ground_truth_boxes # Task 4 GT boxes only, never model predictions (Task 6 §10)
+  crop_padding_percent: 10 # configurable 5-15%, not asserted as scientifically optimal (Task 6 §11)
+
+training:
+  image_size: 224 # matches published YOLO26-cls benchmark input size (Task 6 §14)
+  seed: 42
+  epochs: 100
+  patience: 20
+  batch: auto
+  device: auto
+  project: runs/specialists/snake
+  name: snake_cls_baseline
+  preprocessing: >
+    Aspect ratio is preserved via letterboxing/controlled padding
+    rather than a blind resize/crop, because Ultralytics' classification
+    random-resized-crop (train) / center-crop (val) transforms can
+    otherwise cut off important content on extreme aspect ratios
+    (Task 6 §15). Exact strategy is finalized once real crop data
+    exists to evaluate against.
+
+inference:
+  unknown_threshold: 0.60 # placeholder — must be validated against real
+                           # validation data before being treated as final (Task 6 §18)
+
+leakage:
+  group_by: source_video_or_encounter # Task 6 §20 — same video/sequence/encounter stays in one split
+
+experiment_id: SNAKE-EXP-001

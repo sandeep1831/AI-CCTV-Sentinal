@@ -1,0 +1,42 @@
+# AI-CCTV Sentinel — Hardware Configuration (Task 5)
+#
+# Defines device-selection policy for training/evaluation scripts.
+# scripts/training/preflight_check.py and train_baseline.py detect
+# actual hardware at run time and record it in
+# runs/experiments/<id>/environment.json — this file only sets policy,
+# it does not hard-code specs for a specific machine (Task 5 §12-13, §42).
+
+device:
+  policy: auto # auto | cpu | cuda:0 | cuda:1 | ...
+  # "auto" lets Ultralytics pick CUDA if a correctly-configured NVIDIA
+  # GPU is available, else CPU. Never assume NVIDIA hardware exists.
+
+batch_sizing:
+  policy: auto # -1 to Ultralytics = auto batch sizing from free GPU memory
+  fallback_if_oom:
+    - reduce_batch_size
+    - use_smaller_model # e.g. fall back toward yolo26n if a larger variant OOMs
+    - fall_back_to_cpu
+  # Never resize/alter the dataset itself to work around a GPU-memory
+  # constraint (Task 5 §12).
+
+resource_monitoring:
+  record:
+    - gpu_name
+    - gpu_memory_total
+    - gpu_memory_used
+    - gpu_utilization_percent
+    - cpu_percent
+    - ram_used_gb
+  # Recorded via scripts/training/benchmark_model.py and
+  # save_experiment_metadata.py using whatever is actually queryable in
+  # the current environment (torch.cuda.*, psutil where available). If
+  # GPU monitoring tools aren't available, only what CAN be reliably
+  # measured is recorded — nothing is invented (Task 5 §42).
+
+notes: >
+  This project's Task 1 environment was verified CPU-only in the
+  Anthropic sandbox and has not yet been run on the actual target
+  Windows/GPU machine for Task 5. Whatever hardware actually runs
+  train_baseline.py is what gets recorded — this file must never be
+  edited retroactively to make hardware claims match a report.

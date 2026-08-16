@@ -1,0 +1,26 @@
+%% Diagram 1 — High-Level System Architecture
+%% CURRENT = architecture/interfaces defined in Task 2 (no live data flows yet)
+%% FUTURE  = requires later tasks (real cameras, DB, mobile app, IoT)
+
+flowchart TD
+    CCTV["Existing CCTV / NVR / DVR<br/>(FUTURE: real streams)"] -->|RTSP| ING["Video Ingestion<br/>OpenCV / FFmpeg<br/>(CURRENT: interface only)"]
+    ING --> FP["Frame Processing<br/>(CURRENT: config defined)"]
+    FP --> DET["YOLO26 Detector<br/>(CURRENT: interface + model verified in Task 1)"]
+    DET --> TRK["Object Tracker<br/>BoT-SORT / ByteTrack<br/>(CURRENT: interface only)"]
+    TRK --> TMP["Temporal Consistency<br/>(CURRENT: interface + config)"]
+    TMP --> CLS["Classification<br/>(CURRENT: interface, Mode A/B/C)"]
+    CLS --> RISK["Risk Assessment Engine<br/>(CURRENT: interface + config)"]
+    RISK --> EVT["Event Manager<br/>(CURRENT: interface + schema)"]
+    EVT --> ALM["Alert Manager<br/>(CURRENT: interface + policy config)"]
+    ALM --> DASH["Dashboard / Mobile / IoT Alarm<br/>(FUTURE: not implemented)"]
+    ALM --> API["FastAPI Backend<br/>(CURRENT: contracts defined, Task 1 skeleton running)"]
+    API --> DB[("PostgreSQL<br/>(FUTURE: not implemented)")]
+    DASH --> HITL["Human Confirmation<br/>(CURRENT: schema only)"]
+    HITL --> FB["Feedback Store<br/>(CURRENT: interface only)"]
+    FB --> LEARN["Self-Learning Pipeline<br/>(FUTURE: interfaces only, no algorithms)"]
+    LEARN --> DET
+
+    classDef current fill:#1f6f43,stroke:#14502f,color:#fff;
+    classDef future fill:#7a5b1e,stroke:#5c4416,color:#fff;
+    class ING,FP,DET,TRK,TMP,CLS,RISK,EVT,ALM,API,HITL,FB current;
+    class CCTV,DASH,DB,LEARN future;

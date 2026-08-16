@@ -1,0 +1,78 @@
+# AI-CCTV Sentinel — Dog Visible-Health Screening Configuration (Task 6)
+#
+# This is a VISUAL SCREENING system, not a diagnostic system. It must
+# never claim to detect bacteria, viruses, rabies, or any specific
+# disease (Task 6 §2, §24, §27, §83).
+
+model:
+  weights: yolo26n-cls.pt
+  family: YOLO26n-cls
+  # Segmentation (yolo26n-seg.pt) is a Phase 2 extension for localizing
+  # exactly where a wound/abnormality is, only if sufficient
+  # segmentation-quality annotations exist (Task 6 §28-29). Not used
+  # in the Task 6 baseline.
+
+classes:
+  0: normal_visible_appearance
+  1: possible_wound
+  2: possible_skin_abnormality
+  3: possible_injury
+  4: unable_to_assess
+# Only include categories actually supported by real collected data —
+# do not invent medical labels (Task 6 §25, §27).
+
+dataset:
+  path: datasets/specialists/dog_health
+  version: "1.0.0"
+  manifest: datasets/specialists/dog_health/manifest.json
+  sources: >
+    Licensed veterinary/research datasets, publicly available
+    compatibly-licensed images, or authorized deployment-like images
+    only (Task 6 §26). Never images obtained by intentionally injuring
+    or endangering an animal.
+
+visibility_policy:
+  levels:
+    - full_body_visible
+    - partial_body_visible
+    - insufficient_visibility
+  rule: >
+    If visibility == insufficient_visibility, health_status is forced
+    to unable_to_assess regardless of classifier output (Task 6 §31).
+    This runs BEFORE health classification, not as a post-hoc override.
+
+training:
+  image_size: 224
+  seed: 42
+  epochs: 100
+  patience: 20
+  batch: auto
+  device: auto
+  project: runs/specialists/dog_health
+  name: dog_health_cls_baseline
+
+inference:
+  abnormality_threshold: 0.60 # placeholder — validated later against real val data (Task 6 §35)
+  unknown_threshold: 0.50
+  visibility_threshold: 0.50
+
+human_review_policy:
+  always_require_review_for:
+    - possible_wound
+    - possible_skin_abnormality
+    - possible_injury
+  # Intentionally conservative default (Task 6 §58).
+
+leakage:
+  group_by: source_video_or_encounter # same dog encounter stays in one split (Task 6 §49)
+
+data_sufficiency_policy: >
+  If there is insufficient reliable data for possible_wound,
+  possible_skin_abnormality, or possible_injury, DO NOT fabricate
+  training samples or train a model on synthetic/invented data. Report
+  the branch as PENDING — insufficient validated dataset, and continue
+  operating with detection + visibility assessment only (Task 6 §52,
+  §81). This is the explicit spec requirement, not a fallback of last
+  resort.
+
+experiment_id: DOG-HEALTH-EXP-001

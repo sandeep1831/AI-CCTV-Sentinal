@@ -1,0 +1,60 @@
+# AI-CCTV Sentinel — Camera Configuration Template
+#
+# One entry per existing CCTV camera reused from campus infrastructure.
+# Never place real RTSP credentials in this file — reference an
+# environment variable instead (see .env.example). This file defines
+# the SHAPE of camera configuration for Task 2; no real cameras are
+# connected yet.
+
+cameras:
+  - id: CAM-001
+    name: Block-A-Corridor
+    location: "Academic Block A"
+    zone_ids:
+      - CORRIDOR-A1
+      - PUBLIC-A
+    stream:
+      type: rtsp
+      # Never hard-code credentials. The URL itself (with embedded
+      # user:pass, if the camera requires it) must come entirely from
+      # an environment variable.
+      url_env: CAM_001_RTSP_URL
+      resolution: "1920x1080"
+      fps: 15
+    enabled: false # left disabled until real deployment (Task 2 is architecture-only)
+
+  - id: CAM-002
+    name: Playground-East
+    location: "Playground"
+    zone_ids:
+      - PLAYGROUND-EAST
+      - RESTRICTED-EAST
+    stream:
+      type: rtsp
+      url_env: CAM_002_RTSP_URL
+      resolution: "1920x1080"
+      fps: 15
+    enabled: false
+
+# Zone catalog referenced by camera.zone_ids and used by the
+# zone-aware risk engine (see configs/risk.yaml).
+zones:
+  - id: CORRIDOR-A1
+    kind: corridor
+    student_access: true
+    restricted: false
+
+  - id: PUBLIC-A
+    kind: public
+    student_access: true
+    restricted: false
+
+  - id: PLAYGROUND-EAST
+    kind: playground
+    student_access: true
+    restricted: false
+
+  - id: RESTRICTED-EAST
+    kind: restricted
+    student_access: false
+    restricted: true
